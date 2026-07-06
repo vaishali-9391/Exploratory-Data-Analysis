@@ -1,0 +1,74 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+data = {
+    'Student_ID': [101, 102, 103, 104, 105, 106, 107, 108, 109, 110],
+    'Age': [18, 19, 20, 21, 18, 22, 20, 19, 21, 23],
+    'Gender': ['Female', 'Male', 'Female', 'Male', 'Female',
+               'Male', 'Female', 'Male', 'Female', 'Male'],
+    'Study_Hours': [2, 3, 4, 5, 2, 6, 4, 3, 5, 7],
+    'Marks': [70, 75, 85, 90, 68, 95, 88, 78, 92, 98]
+}
+df = pd.DataFrame(data)
+print("FIRST 5 RECORDS")
+print(df.head())
+
+print("\nLAST 5 RECORDS")
+print(df.tail())
+print("\nDATASET SHAPE")
+print(df.shape)
+
+print("\nCOLUMN NAMES")
+print(df.columns)
+
+print("\nDATA TYPES")
+print(df.dtypes)
+
+print("\nDATASET INFORMATION")
+print(df.info())
+print("\nMISSING VALUES")
+print(df.isnull().sum())
+print("\nDUPLICATE RECORDS")
+print(df.duplicated().sum())
+print("\nSTATISTICAL SUMMARY")
+print(df.describe())
+numeric_df = df.select_dtypes(include=np.number)
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(
+    numeric_df.corr(),
+    annot=True,
+    cmap="coolwarm",
+    linewidths=0.5
+)
+plt.title("Correlation Matrix")
+plt.show()
+numeric_df.hist(figsize=(10, 6))
+plt.suptitle("Histogram of Numerical Features")
+plt.show()
+for column in numeric_df.columns:
+    plt.figure(figsize=(6, 4))
+    sns.boxplot(x=df[column])
+    plt.title(f"Boxplot of {column}")
+    plt.show()
+plt.figure(figsize=(6, 4))
+sns.countplot(x='Gender', data=df)
+plt.title("Gender Distribution")
+plt.show()
+plt.figure(figsize=(6, 4))
+plt.scatter(df['Study_Hours'], df['Marks'])
+plt.xlabel("Study Hours")
+plt.ylabel("Marks")
+plt.title("Study Hours vs Marks")
+plt.show()
+sns.pairplot(df)
+plt.show()
+average_marks = df['Marks'].mean()
+print("\nAVERAGE MARKS:", average_marks)
+max_marks = df['Marks'].max()
+print("MAXIMUM MARKS:", max_marks)
+min_marks = df['Marks'].min()
+print("MINIMUM MARKS:", min_marks)
+
+print("\nEDA COMPLETED SUCCESSFULLY!")
